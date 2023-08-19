@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {CategoryService} from "../../services/category.service";
 import {PlayerAnswer} from "../../models/player-answer.model";
 import {QuizDetail} from "../../models/quiz-details/quiz-detail.model";
@@ -9,7 +9,7 @@ import {Router} from "@angular/router";
     templateUrl: './quiz-result.component.html',
     styleUrls: ['./quiz-result.component.css']
 })
-export class QuizResultComponent implements AfterViewInit {
+export class QuizResultComponent implements AfterViewInit, OnInit {
 
     public playerSelectedAnswers: PlayerAnswer[];
     public quizDetails: QuizDetail[];
@@ -18,12 +18,15 @@ export class QuizResultComponent implements AfterViewInit {
 
     constructor(private readonly categoryService: CategoryService,
                 private router: Router) {
+        this.playerSelectedAnswers = this.categoryService.playerSelectedAnswers;
+        this.quizDetails = this.categoryService.quizDetails;
+    }
+
+    ngOnInit(): void {
         // when refresh result overview navigate to home page
         if (this.categoryService.playerSelectedAnswers == undefined || this.categoryService.quizDetails == undefined) {
             this.navigateToQuizMakerPage();
         }
-        this.playerSelectedAnswers = this.categoryService.playerSelectedAnswers;
-        this.quizDetails = this.categoryService.quizDetails;
         this.getFinalScore();
         this.getScoreColor();
     }
