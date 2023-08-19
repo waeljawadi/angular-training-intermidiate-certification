@@ -18,6 +18,10 @@ export class QuizResultComponent implements AfterViewInit {
 
     constructor(private readonly categoryService: CategoryService,
                 private router: Router) {
+        // when refresh result overview navigate to home page
+        if (this.categoryService.playerSelectedAnswers == undefined || this.categoryService.quizDetails == undefined) {
+            this.navigateToQuizMakerPage();
+        }
         this.playerSelectedAnswers = this.categoryService.playerSelectedAnswers;
         this.quizDetails = this.categoryService.quizDetails;
         this.getFinalScore();
