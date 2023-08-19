@@ -2,3 +2,33 @@
     background-color: green;
     color: white;
 }
+
+.mr-10 {
+    margin-right: 10px;
+}
+
+.row.container-fluid {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.center {
+    text-align: center;
+}
+
+.width-100 {
+    width: 100%;
+}

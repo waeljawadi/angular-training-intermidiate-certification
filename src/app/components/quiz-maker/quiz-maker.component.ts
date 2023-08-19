@@ -20,8 +20,9 @@ export class QuizMakerComponent implements OnInit {
     public selectedCategoryId: string;
     public selectedDifficultyLevel: string;
     public quizDetails: QuizDetail[] = [];
-    public triviaCategories: Category[] = [];
+    public categories: Category[] = [];
     public playerSelectedAnswers: PlayerAnswerModel[] = [];
+
     private rawQuizDetailsMapper: RawQuizDetailsMapper = new RawQuizDetailsMapper();
 
     constructor(private categoryService: CategoryService,
@@ -40,37 +41,39 @@ export class QuizMakerComponent implements OnInit {
             });
     }
 
-    isCreateQuizBtnEnabled = (): boolean => !!(this.selectedCategoryId && this.selectedDifficultyLevel);
+    isGenerateQuizButtonEnabled = (): boolean => !!(this.selectedCategoryId && this.selectedDifficultyLevel);
 
-    playerChoiceDetails(questionId: number | undefined, answerId: number | undefined, isCorrect:boolean | undefined) {
+    playerChoiceDetails(questionId: number, answerId: number, isCorrect: boolean) {
+        // Check if a question was already answered
         const index = this.playerSelectedAnswers.findIndex(answer => answer.questionId == questionId);
         const playerAnswer = Builder<PlayerAnswerModel>()
             .answerId(answerId)
             .questionId(questionId)
             .isCorrect(isCorrect)
             .build();
+        // If an already choice has been made then update it, else create new entry
         (index == -1) ? this.playerSelectedAnswers.push(playerAnswer) : this.playerSelectedAnswers[index].answerId = answerId;
-        this.highlightSelectedAnswer(questionId, answerId);
+        this.highlightSelectedChoice(questionId, answerId);
     }
 
-    checkMyQuizResult() {
+    navigateToQuizResults() {
+        // cache infos
         this.categoryService.playerSelectedAnswers = this.playerSelectedAnswers;
         this.categoryService.quizDetails = this.quizDetails;
+        // navigate
         this.router.navigate(['/result-overview']);
     }
 
-    private highlightSelectedAnswer(questionId: number | undefined, answerId: number | undefined) {
-        let questionIdClass = '.question_' + questionId;
-        let AnswerIdClass = '.answer_' + answerId;
-        Array.from(document.querySelectorAll(questionIdClass)).forEach((t) => t.classList.remove("green"));
-        document.querySelector(questionIdClass + AnswerIdClass)?.classList.add("green");
+    private highlightSelectedChoice(questionId: number, answerId: number) {
+        let questionIdQuerySelector = '.question_' + questionId;
+        let answerIdQuerySelector = '.answer_' + answerId;
+        Array.from(document.querySelectorAll(questionIdQuerySelector)).forEach((querySelector) => querySelector.classList.remove("green"));
+        document.querySelector(questionIdQuerySelector + answerIdQuerySelector)?.classList.add("green");
     }
 
     private getCategories(): void {
         this.categoryService
             .getTriviaCategories()
-            .subscribe((response: Categories) => {
-                this.triviaCategories = response.trivia_categories!;
-            });
+            .subscribe((response: Categories) => this.categories = response.trivia_categories);
     }
 }

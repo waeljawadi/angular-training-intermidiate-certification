@@ -1,26 +1,68 @@
-<ng-container *ngIf="triviaCategories && triviaCategories.length > 0">
-    <select id="categorySelect" [(ngModel)]="selectedCategoryId" (change)="isCreateQuizBtnEnabled()">
-        <option disabled selected value="undefined">Select a category</option>
-        <option *ngFor="let triviaCategory of triviaCategories"
-                value={{triviaCategory.id}}>{{triviaCategory.name}}</option>
-    </select>
-</ng-container>
-<ng-container *ngIf="difficultyLevels">
-    <select id="difficultySelect" [(ngModel)]="selectedDifficultyLevel" (change)="isCreateQuizBtnEnabled()">
-        <option disabled selected value="undefined">Select a difficulty level</option>
-        <option *ngFor="let difficultyLevel of difficultyLevels" id={{difficultyLevel}}>{{difficultyLevel}}</option>
-    </select>
-</ng-container>
-<button id="createBtn" [disabled]="!isCreateQuizBtnEnabled()" (click)="getQuizDetails()">Create</button>
+<h1 class="center"> Quiz Maker</h1>
+<!--Categories-->
+<form class="container">
+    <div class="row">
+        <div class="col-4">
+            <ng-container *ngIf="categories && categories.length > 0">
+                <select name="categories"
+                        class="form-control" id="categorySelect"
+                        [(ngModel)]="selectedCategoryId"
+                        (change)="isGenerateQuizButtonEnabled()">
+                    <option
+                        disabled
+                        selected
+                        value="undefined">Select a category
+                    </option>
+                    <option *ngFor="let category of categories"
+                            value={{category.id}}>{{category.name}}</option>
+                </select>
+            </ng-container>
+        </div>
+        <!--difficulties-->
+        <div class="col-4">
+            <ng-container *ngIf="difficultyLevels">
+                <select name="difficulties"
+                        class="form-control"
+                        id="difficultySelect"
+                        [(ngModel)]="selectedDifficultyLevel"
+                        (change)="isGenerateQuizButtonEnabled()">
+                    <option
+                        disabled
+                        selected
+                        value="undefined">Select a difficulty level
+                    </option>
+                    <option *ngFor="let difficultyLevel of difficultyLevels"
+                            id={{difficultyLevel}}>{{difficultyLevel}}</option>
+                </select>
+            </ng-container>
+        </div>
+        <!--generate-->
+        <div class="col-4">
+            <button id="createBtn"
+                    name="create-quiz"
+                    class="btn btn-info  width-100"
+                    [disabled]="!isGenerateQuizButtonEnabled()"
+                    (click)="getQuizDetails()">Create
+            </button>
+        </div>
+    </div>
+</form>
+<!--quiz-->
 <ng-container *ngIf="quizDetails && quizDetails.length > 0">
-    <div *ngFor="let quizDetail of quizDetails">
-        <p>{{quizDetail.question}}</p>
-        <span *ngFor="let answer of quizDetail.answers">
-      <button (click)="playerChoiceDetails(quizDetail.id,answer.id,answer.isCorrect)"
-              [ngClass]="'answer_'+answer.id + ' question_'+quizDetail.id">{{answer.answer}}</button>
-    </span>
+    <div *ngFor="let quizDetail of quizDetails" class="row container-fluid">
+        <p class="col-12 mt-20 mb-20 font-bold">{{quizDetail.question}}</p>
+        <ng-container *ngFor="let answer of quizDetail.answers">
+            <button class="col-2 btn btn-light mr-10"
+                    (click)="playerChoiceDetails(quizDetail.id,answer.id,answer.isCorrect)"
+                    [ngClass]="'answer_'+answer.id + ' question_'+quizDetail.id"
+            >{{answer.answer}}</button>
+        </ng-container>
     </div>
 </ng-container>
-<p>
-    <button [hidden]="playerSelectedAnswers.length < 5"(click)="checkMyQuizResult()">Submit</button>
-</p>
+<!--submit-->
+<div class="row container-fluid">
+    <button class="btn btn-secondary mt-20"
+            [hidden]="playerSelectedAnswers.length < 5"
+            (click)="navigateToQuizResults()">Submit
+    </button>
+</div>
