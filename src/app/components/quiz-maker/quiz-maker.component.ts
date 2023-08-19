@@ -25,7 +25,8 @@ export class QuizMakerComponent implements OnInit, OnDestroy {
     public playerSelectedAnswers: PlayerAnswer[] = [];
     public subscriptionOne: Subscription;
     public subscriptionTwo: Subscription;
-
+    public quizDetailsApiError: string;
+    public categoryApiError: string;
     private rawQuizDetailsMapper: RawQuizDetailsMapper = new RawQuizDetailsMapper();
 
     constructor(private categoryService: CategoryService,
@@ -44,6 +45,7 @@ export class QuizMakerComponent implements OnInit, OnDestroy {
             .subscribe((response: RawQuizDetails): void => {
                 this.quizDetails = this.rawQuizDetailsMapper.toQuizDetails(response);
             }, () => {
+                this.quizDetailsApiError = "the Api for getting the Quiz is down please try later";
                 console.warn("an error occurred please try later");
             });
     }
@@ -82,6 +84,7 @@ export class QuizMakerComponent implements OnInit, OnDestroy {
             .subscribe((response: Categories) => {
                 this.categories = response.trivia_categories
             }, () => {
+                this.categoryApiError = "the Api for getting the categories is down please try later";
                 console.warn("an error occurred please try later");
             });
     }

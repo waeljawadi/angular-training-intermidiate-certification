@@ -1,4 +1,15 @@
 <h1 class="center"> Quiz Maker</h1>
+<!-- When Api are down -->
+    <ng-container *ngIf="quizDetailsApiError">
+        <div class="alert alert-danger" role="alert">
+            {{quizDetailsApiError}}
+        </div>
+    </ng-container>
+    <ng-container *ngIf="categoryApiError">
+        <div class="alert alert-danger" role="alert">
+            {{categoryApiError}}
+        </div>
+    </ng-container>
 <!--Categories-->
 <form class="container">
     <div class="row">
