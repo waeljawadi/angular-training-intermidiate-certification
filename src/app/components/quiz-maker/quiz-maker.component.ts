@@ -9,6 +9,7 @@ import {PlayerAnswer} from "../../models/player-answer.model";
 import {Builder} from "builder-pattern";
 import {Router} from "@angular/router";
 import {Subscription} from "rxjs";
+import {SpecialCharsUtils} from "../../utilities/special-chars.utils";
 
 @Component({
     selector: 'app-quiz-maker',
@@ -45,6 +46,7 @@ export class QuizMakerComponent implements OnInit, OnDestroy {
             .subscribe((response: RawQuizDetails): void => {
                 this.quizDetailsApiError = undefined;
                 this.quizDetails = this.rawQuizDetailsMapper.toQuizDetails(response);
+                SpecialCharsUtils.fixSpecialChars(this.quizDetails);
             }, () => {
                 this.quizDetailsApiError = "the Api for getting the Quiz is down please try later";
                 console.warn("an error occurred please try later");

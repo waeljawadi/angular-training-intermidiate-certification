@@ -21,6 +21,7 @@
     "builder-pattern": "^2.2.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
+    "utf8": "^3.0.0",
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
