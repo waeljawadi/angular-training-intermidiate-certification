@@ -36,17 +36,15 @@ export class QuizMakerComponent implements OnInit {
     getQuizDetails(): void {
         this.categoryService
             .getQuizDetailsByCategoryAndDifficulty(this.selectedCategoryId, this.selectedDifficultyLevel)
-            .subscribe((response: RawQuizDetails) => {
+            .subscribe((response: RawQuizDetails): void => {
                 this.quizDetails = this.rawQuizDetailsMapper.toQuizDetails(response);
             });
     }
 
-    isGenerateQuizButtonEnabled = (): boolean => !!(this.selectedCategoryId && this.selectedDifficultyLevel);
-
-    playerChoiceDetails(questionId: number, answerId: number, isCorrect: boolean) {
+    playerChoiceDetails(questionId: number, answerId: number, isCorrect: boolean): void {
         // Check if a question was already answered
-        const index = this.playerSelectedAnswers.findIndex(answer => answer.questionId == questionId);
-        const playerAnswer = Builder<PlayerAnswerModel>()
+        const index: number = this.playerSelectedAnswers.findIndex((answer: PlayerAnswerModel): boolean => answer.questionId == questionId);
+        const playerAnswer: PlayerAnswerModel = Builder<PlayerAnswerModel>()
             .answerId(answerId)
             .questionId(questionId)
             .isCorrect(isCorrect)
@@ -56,7 +54,7 @@ export class QuizMakerComponent implements OnInit {
         this.highlightSelectedChoice(questionId, answerId);
     }
 
-    navigateToQuizResults() {
+    navigateToQuizResults(): void {
         // cache infos
         this.categoryService.playerSelectedAnswers = this.playerSelectedAnswers;
         this.categoryService.quizDetails = this.quizDetails;
@@ -64,10 +62,10 @@ export class QuizMakerComponent implements OnInit {
         this.router.navigate(['/result-overview']);
     }
 
-    private highlightSelectedChoice(questionId: number, answerId: number) {
-        let questionIdQuerySelector = '.question_' + questionId;
-        let answerIdQuerySelector = '.answer_' + answerId;
-        Array.from(document.querySelectorAll(questionIdQuerySelector)).forEach((querySelector) => querySelector.classList.remove("green"));
+    private highlightSelectedChoice(questionId: number, answerId: number): void {
+        let questionIdQuerySelector: string = '.question_' + questionId;
+        let answerIdQuerySelector: string = '.answer_' + answerId;
+        Array.from(document.querySelectorAll(questionIdQuerySelector)).forEach((querySelector: Element) => querySelector.classList.remove("green"));
         document.querySelector(questionIdQuerySelector + answerIdQuerySelector)?.classList.add("green");
     }
 

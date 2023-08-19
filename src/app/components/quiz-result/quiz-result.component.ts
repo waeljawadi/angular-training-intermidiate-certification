@@ -20,8 +20,6 @@ export class QuizResultComponent implements AfterViewInit {
                 private router: Router) {
         this.playerSelectedAnswers = this.categoryService.playerSelectedAnswers;
         this.quizDetails = this.categoryService.quizDetails;
-        // console.log('this.playerSelectedAnswers', this.playerSelectedAnswers);
-        //  console.log('this.quizDetails', this.quizDetails);
         this.getFinalScore();
         this.getScoreColor();
     }
@@ -30,21 +28,25 @@ export class QuizResultComponent implements AfterViewInit {
         this.highlightWrongChosenAnswers();
     }
 
-    private highlightWrongChosenAnswers() {
-        this.playerSelectedAnswers.map(selectedAnswer => {
-            let questionIdClass = '.question_' + selectedAnswer.questionId;
-            let AnswerIdClass = '.answer_' + selectedAnswer.answerId;
+    private highlightWrongChosenAnswers(): void {
+        this.playerSelectedAnswers.map((selectedAnswer: PlayerAnswerModel): void => {
+            let questionIdClass: string = '.question_' + selectedAnswer.questionId;
+            let AnswerIdClass: string = '.answer_' + selectedAnswer.answerId;
             (selectedAnswer.isCorrect)
                 ? document.querySelector(questionIdClass + AnswerIdClass).classList.add("green")
                 : document.querySelector(questionIdClass + AnswerIdClass).classList.add("red");
         })
     }
 
-    navigateToQuizMakerPage = () => this.router.navigate(['/']);
+    navigateToQuizMakerPage(): void {
+        this.router.navigate(['/']);
+    };
 
-    private getFinalScore = () => this.finalScore = this.playerSelectedAnswers.filter(answer => answer.isCorrect).length;
+    private getFinalScore(): void {
+        this.finalScore = this.playerSelectedAnswers.filter((answer: PlayerAnswerModel) => answer.isCorrect).length
+    };
 
-    private getScoreColor() {
+    private getScoreColor(): void {
         switch (this.finalScore) {
             case 0:
             case 1:
@@ -60,7 +62,6 @@ export class QuizResultComponent implements AfterViewInit {
                 break;
         }
     }
-
 
 
 }

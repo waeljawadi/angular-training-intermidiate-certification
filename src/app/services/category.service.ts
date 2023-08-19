@@ -17,7 +17,7 @@ export class CategoryService {
     private OPEN_DB_URL = "https://opentdb.com";
     private CATEGORIES_API_URL = "api_category.php";
     public playerSelectedAnswers: PlayerAnswerModel[];
-    public quizDetails!: QuizDetail[];
+    public quizDetails: QuizDetail[];
 
     getTriviaCategories(): Observable<Categories> {
         return this.httpClient.get<Categories>(this.OPEN_DB_URL + "/" + this.CATEGORIES_API_URL);

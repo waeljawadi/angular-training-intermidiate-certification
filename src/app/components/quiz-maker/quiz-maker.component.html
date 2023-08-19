@@ -6,8 +6,7 @@
             <ng-container *ngIf="categories && categories.length > 0">
                 <select name="categories"
                         class="form-control" id="categorySelect"
-                        [(ngModel)]="selectedCategoryId"
-                        (change)="isGenerateQuizButtonEnabled()">
+                        [(ngModel)]="selectedCategoryId">
                     <option
                         disabled
                         selected
@@ -24,8 +23,7 @@
                 <select name="difficulties"
                         class="form-control"
                         id="difficultySelect"
-                        [(ngModel)]="selectedDifficultyLevel"
-                        (change)="isGenerateQuizButtonEnabled()">
+                        [(ngModel)]="selectedDifficultyLevel">
                     <option
                         disabled
                         selected
@@ -40,8 +38,8 @@
         <div class="col-4">
             <button id="createBtn"
                     name="create-quiz"
-                    class="btn btn-info  width-100"
-                    [disabled]="!isGenerateQuizButtonEnabled()"
+                    class="btn btn-info width-100"
+                    [disabled]="!!!(selectedCategoryId && this.selectedDifficultyLevel)"
                     (click)="getQuizDetails()">Create
             </button>
         </div>

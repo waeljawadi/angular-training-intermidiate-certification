@@ -5,14 +5,14 @@ import {Builder} from "builder-pattern";
 export class RawQuizDetailsMapper {
     public toQuizDetails(rawQuizDetails: RawQuizDetails): QuizDetail[] {
         let quizDetails: QuizDetail[] = [];
-        rawQuizDetails.results?.map((rawQuizDetail, index) => {
-            const quizDetail = this.toQuizDetail(rawQuizDetail, index);
+        rawQuizDetails.results?.map((rawQuizDetail: RawQuiz, index: number): void => {
+            const quizDetail: QuizDetail = this.toQuizDetail(rawQuizDetail, index);
             quizDetails.push(quizDetail);
         });
         return quizDetails;
     }
 
-    private toQuizDetail(rawQuizDetail: RawQuiz, index: number) {
+    private toQuizDetail(rawQuizDetail: RawQuiz, index: number): QuizDetail {
         const answers: Answer[] = this.enrichAndCombineAnswers(rawQuizDetail);
         return Builder<QuizDetail>()
             .id(index)
@@ -22,7 +22,7 @@ export class RawQuizDetailsMapper {
     }
 
     private enrichAndCombineAnswers(rawQuizDetail: RawQuiz): Answer[] {
-        const incorrectAnswers: Answer[] = rawQuizDetail.incorrect_answers!.map((incorrect, index) => {
+        const incorrectAnswers: Answer[] = rawQuizDetail.incorrect_answers.map((incorrect: string, index: number) => {
             return Builder<Answer>()
                 .id(index)
                 .answer(incorrect)
@@ -37,9 +37,9 @@ export class RawQuizDetailsMapper {
         return incorrectAnswers.concat(correctAnswer);
     }
 
-    private randomizeAnswersPosition(answers: Answer[]) {
-        return answers.map(value => ({value, sort: Math.random()}))
-            .sort((a, b) => a.sort - b.sort)
+    private randomizeAnswersPosition(answers: Answer[]): Answer[] {
+        return answers.map((value: Answer) => ({value, sort: Math.random()}))
+            .sort((current: { value: Answer, sort: number }, next:{ value: Answer, sort: number }) => current.sort - next.sort)
             .map(({value}) => value);
     }
 }
