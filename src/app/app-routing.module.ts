@@ -4,8 +4,9 @@ import {QuizResultComponent} from "./components/quiz-result/quiz-result.componen
 import {QuizMakerComponent} from "./components/quiz-maker/quiz-maker.component";
 
 const routes: Routes = [
-    {path: '', component: QuizMakerComponent},
-    {path: 'result-overview', component: QuizResultComponent}
+    {path: 'result-overview', component: QuizResultComponent},
+    {path: '', component: QuizMakerComponent}
+
 ];
 
 @NgModule({
