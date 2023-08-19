@@ -43,6 +43,7 @@ export class QuizMakerComponent implements OnInit, OnDestroy {
         this.subscriptionOne = this.categoryService
             .getQuizDetailsByCategoryAndDifficulty(this.selectedCategoryId, this.selectedDifficultyLevel)
             .subscribe((response: RawQuizDetails): void => {
+                this.quizDetailsApiError = undefined;
                 this.quizDetails = this.rawQuizDetailsMapper.toQuizDetails(response);
             }, () => {
                 this.quizDetailsApiError = "the Api for getting the Quiz is down please try later";
@@ -81,7 +82,8 @@ export class QuizMakerComponent implements OnInit, OnDestroy {
     private getCategories(): void {
         this.subscriptionTwo = this.categoryService
             .getTriviaCategories()
-            .subscribe((response: Categories) => {
+            .subscribe((response: Categories): void => {
+                this.categoryApiError = undefined;
                 this.categories = response.trivia_categories
             }, () => {
                 this.categoryApiError = "the Api for getting the categories is down please try later";

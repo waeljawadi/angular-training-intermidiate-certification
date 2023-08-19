@@ -14,8 +14,8 @@ export class CategoryService {
     constructor(private httpClient: HttpClient) {
     }
 
-    private OPEN_DB_URL = "https://opentdb.com";
-    private CATEGORIES_API_URL = "api_category.php";
+    private OPEN_DB_URL: string = "https://opentdb.com";
+    private CATEGORIES_API_URL: string = "api_category.php";
     public playerSelectedAnswers: PlayerAnswer[];
     public quizDetails: QuizDetail[];
 
@@ -24,17 +24,13 @@ export class CategoryService {
     }
 
     getQuizDetailsByCategoryAndDifficulty(categoryId: string, difficultyLevel: string): Observable<RawQuizDetails> {
-        const api = this.quizDetailsApiComposer(categoryId, difficultyLevel);
+        const api: string = this.quizApiCreator(categoryId, difficultyLevel);
         return this.httpClient.get<RawQuizDetails>(api);
     }
 
-    private quizDetailsApiComposer(categoryId: string, difficultyLevel: string): string {
-        const prefix: string = "/api.php?";
-        const amount: string = "amount=5";
+    private quizApiCreator(categoryId: string, difficultyLevel: string): string {
         const category: string = "&category=" + categoryId;
-        const difficulty: string = "&difficulty=" + difficultyLevel?.toLowerCase();
-        const type: string = "&type=multiple";
-        return this.OPEN_DB_URL + prefix + amount + category + difficulty + type;
+        const difficulty: string = "&difficulty=" + difficultyLevel.toLowerCase();
+        return this.OPEN_DB_URL + "/api.php?" + "amount=5" + category + difficulty + "&type=multiple";
     }
-
 }

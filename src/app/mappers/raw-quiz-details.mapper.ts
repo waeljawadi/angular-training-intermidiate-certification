@@ -31,7 +31,7 @@ export class RawQuizDetailsMapper {
         });
         const correctAnswer: Answer = Builder<Answer>()
             .id(incorrectAnswers.length)
-            .answer(rawQuizDetail.correct_answer!)
+            .answer(rawQuizDetail.correct_answer)
             .isCorrect(true)
             .build();
         return incorrectAnswers.concat(correctAnswer);
@@ -39,7 +39,10 @@ export class RawQuizDetailsMapper {
 
     private randomizeAnswersPosition(answers: Answer[]): Answer[] {
         return answers.map((value: Answer) => ({value, sort: Math.random()}))
-            .sort((current: { value: Answer, sort: number }, next:{ value: Answer, sort: number }) => current.sort - next.sort)
+            .sort((current: { value: Answer, sort: number }, next: {
+                value: Answer,
+                sort: number
+            }) => current.sort - next.sort)
             .map(({value}) => value);
     }
 }
