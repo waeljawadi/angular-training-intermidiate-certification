@@ -1,0 +1,12 @@
+<ng-container *ngIf="quizDetails && quizDetails.length > 0">
+    <ng-container *ngFor="let quizDetail of quizDetails">
+        <p>{{quizDetail.question}}</p>
+        <ng-container *ngFor="let answer of quizDetail.answers">
+            <button [ngClass]="'answer_' + answer.id + ' question_' + quizDetail.id"
+                    [class.green]="answer.isCorrect">
+                {{answer.answer}}
+            </button>
+        </ng-container>
+    </ng-container>
+    <p [style.background-color]="scoreColor">Your scored {{finalScore}} out of 5</p>
+</ng-container>

@@ -1,0 +1,26 @@
+<ng-container *ngIf="triviaCategories && triviaCategories.length > 0">
+    <select id="categorySelect" [(ngModel)]="selectedCategoryId" (change)="isCreateQuizBtnEnabled()">
+        <option disabled selected value="undefined">Select a category</option>
+        <option *ngFor="let triviaCategory of triviaCategories"
+                value={{triviaCategory.id}}>{{triviaCategory.name}}</option>
+    </select>
+</ng-container>
+<ng-container *ngIf="difficultyLevels">
+    <select id="difficultySelect" [(ngModel)]="selectedDifficultyLevel" (change)="isCreateQuizBtnEnabled()">
+        <option disabled selected value="undefined">Select a difficulty level</option>
+        <option *ngFor="let difficultyLevel of difficultyLevels" id={{difficultyLevel}}>{{difficultyLevel}}</option>
+    </select>
+</ng-container>
+<button id="createBtn" [disabled]="!isCreateQuizBtnEnabled()" (click)="getQuizDetails()">Create</button>
+<ng-container *ngIf="quizDetails && quizDetails.length > 0">
+    <div *ngFor="let quizDetail of quizDetails">
+        <p>{{quizDetail.question}}</p>
+        <span *ngFor="let answer of quizDetail.answers">
+      <button (click)="playerChoiceDetails(quizDetail.id,answer.id,answer.isCorrect)"
+              [ngClass]="'answer_'+answer.id + ' question_'+quizDetail.id">{{answer.answer}}</button>
+    </span>
+    </div>
+</ng-container>
+<p>
+    <button [hidden]="playerSelectedAnswers.length < 5"(click)="checkMyQuizResult()">Submit</button>
+</p>
