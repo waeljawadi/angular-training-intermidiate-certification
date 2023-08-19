@@ -1,13 +1,16 @@
+<h1 class="center">Result</h1>
 <ng-container *ngIf="quizDetails && quizDetails.length > 0">
-    <ng-container *ngFor="let quizDetail of quizDetails">
-        <p>{{quizDetail.question}}</p>
+    <div *ngFor="let quizDetail of quizDetails" class="row container-fluid">
+        <p class="col-12 mt-20 mb-20 font-bold">{{quizDetail.question}}</p>
         <ng-container *ngFor="let answer of quizDetail.answers">
-            <button [ngClass]="'answer_' + answer.id + ' question_' + quizDetail.id"
+            <button [ngClass]="'answer_' + answer.id + ' question_' + quizDetail.id + ' col-2 btn btn-light mr-10'"
                     [class.green]="answer.isCorrect">
                 {{answer.answer}}
             </button>
         </ng-container>
-    </ng-container>
-    <p [style.background-color]="scoreColor">Your scored {{finalScore}} out of 5</p>
+    </div>
+    <div class="row container-fluid">
+        <p class="col-9 mt-20 padds" [style.background-color]="scoreColor">Your scored {{finalScore}} out of 5</p>
+        <button (click)="navigateToQuizMakerPage()" class="btn btn-info mt-20 col-4"> Create a New Quiz</button>
+    </div>
 </ng-container>
-<button (click)="navigateToQuizMakerPage()"> Create a New Quiz</button>

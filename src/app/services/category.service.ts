@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {Categories} from "../models/categories.model";
 import {RawQuizDetails} from "../models/quiz-details/raw-quiz-details.model";
-import {PlayerAnswerModel} from "../models/player-answer.model";
+import {PlayerAnswer} from "../models/player-answer.model";
 import {QuizDetail} from "../models/quiz-details/quiz-detail.model";
 
 @Injectable({
@@ -16,7 +16,7 @@ export class CategoryService {
 
     private OPEN_DB_URL = "https://opentdb.com";
     private CATEGORIES_API_URL = "api_category.php";
-    public playerSelectedAnswers: PlayerAnswerModel[];
+    public playerSelectedAnswers: PlayerAnswer[];
     public quizDetails: QuizDetail[];
 
     getTriviaCategories(): Observable<Categories> {

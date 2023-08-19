@@ -1,6 +1,6 @@
 import {AfterViewInit, Component} from '@angular/core';
 import {CategoryService} from "../../services/category.service";
-import {PlayerAnswerModel} from "../../models/player-answer.model";
+import {PlayerAnswer} from "../../models/player-answer.model";
 import {QuizDetail} from "../../models/quiz-details/quiz-detail.model";
 import {Router} from "@angular/router";
 
@@ -11,7 +11,7 @@ import {Router} from "@angular/router";
 })
 export class QuizResultComponent implements AfterViewInit {
 
-    public playerSelectedAnswers: PlayerAnswerModel[];
+    public playerSelectedAnswers: PlayerAnswer[];
     public quizDetails: QuizDetail[];
     public finalScore: number;
     public scoreColor: string;
@@ -29,7 +29,7 @@ export class QuizResultComponent implements AfterViewInit {
     }
 
     private highlightWrongChosenAnswers(): void {
-        this.playerSelectedAnswers.map((selectedAnswer: PlayerAnswerModel): void => {
+        this.playerSelectedAnswers.map((selectedAnswer: PlayerAnswer): void => {
             let questionIdClass: string = '.question_' + selectedAnswer.questionId;
             let AnswerIdClass: string = '.answer_' + selectedAnswer.answerId;
             (selectedAnswer.isCorrect)
@@ -43,7 +43,7 @@ export class QuizResultComponent implements AfterViewInit {
     };
 
     private getFinalScore(): void {
-        this.finalScore = this.playerSelectedAnswers.filter((answer: PlayerAnswerModel) => answer.isCorrect).length
+        this.finalScore = this.playerSelectedAnswers.filter((answer: PlayerAnswer) => answer.isCorrect).length
     };
 
     private getScoreColor(): void {
