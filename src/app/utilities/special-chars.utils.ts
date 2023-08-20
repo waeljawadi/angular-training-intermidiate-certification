@@ -4,20 +4,17 @@ export class SpecialCharsUtils {
 
     static fixSpecialChars(quizDetails: QuizDetail[]): void {
         quizDetails.map((quizDetail: QuizDetail): void => {
-            quizDetail.question = this.replaceAllOccurrencesInString(quizDetail.question);
+            quizDetail.question = this.decodeHtmlEntities(quizDetail.question);
             quizDetail.answers.map((answer: Answer): void => {
-                answer.answer = this.replaceAllOccurrencesInString(answer.answer);
+                answer.answer = this.decodeHtmlEntities(answer.answer);
             })
         });
     }
 
-    static replaceAllOccurrencesInString(stringToFormat: string): string {
-        return stringToFormat
-            .replaceAll("&amp;", "&")
-            .replaceAll("&quot;", '"')
-            .replaceAll("&#039;", "'")
-            .replaceAll("&lt;", "<")
-            .replaceAll("&gt;", ">");
+    static decodeHtmlEntities(text: string): string {
+        let textarea = document.createElement("textarea");
+        textarea.innerHTML = text;
+        return textarea.value;
     }
 
 }
